@@ -9,6 +9,6 @@ class ChadInput(BaseModel):
     api_key : str
 
 def valid_api_key(external_key: str) -> bool:
-    if external_key is not "":
+    if external_key != "":
         return (os.environ.get('API_KEY') == external_key)
     return False
