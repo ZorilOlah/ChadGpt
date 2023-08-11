@@ -1,6 +1,10 @@
 import openai
+from dotenv import load_dotenv
+import os
 
-openai.api_key = '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'
+load_dotenv()
+
+openai.api_key = os.environ.get('OpenAI_API')
 
 def prompt_chad(text):
     messages = [
