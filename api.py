@@ -5,10 +5,13 @@ from fastapi import FastAPI, HTTPException, status
 import uvicorn 
 import os 
 from api_utils import ChadInput, valid_api_key
+from dotenv import load_dotenv
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument("ChadGPT Prompt", type=str, nargs='+', help = "Your text prompt to ChadGPT. Ask a question.")
 # prompt = parser.parse_args()
+
+load_dotenv()
 
 app = FastAPI()
 

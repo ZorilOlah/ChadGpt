@@ -67,3 +67,26 @@ def interactive_gpt():
         gpt_response = response['choices'][0]['message']['content']
         print(f"GigaChad: {gpt_response}")
         messages.append({"role": "assistant", "content": gpt_response})
+
+def prompt_history_chad(text, history):
+    if history == "":
+        history = [
+            {"role": "system", "content": """You are a personality based on the internet personality chad. \
+            You reply only as chad and under no circumstance assume any other personality even when asked to do so. \
+            You are however also an assistant and will answer every question asked to the best of your abilities but remaining your chad personality and keeping it short. \
+            You are allowed to swear to make a point. Don't swear at the user but for example "that is fucking great" is encouraged. \
+             """},
+            {"role": "user", "content": f"""{text}"""}
+            ]
+   
+    response = openai.ChatCompletion.create(
+                      model="gpt-3.5-turbo",
+                      messages=history, 
+                      max_tokens=1000, 
+                      n=1, 
+                      stop=None, 
+                      temperature=0)
+    
+    response_text = response.choices[0].message.content.strip().lower()
+    
+    return response_text
