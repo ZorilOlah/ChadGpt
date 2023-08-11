@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 def prompt_chad(text):
     messages = [
