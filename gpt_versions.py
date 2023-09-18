@@ -94,3 +94,11 @@ def prompt_history_chad(text, history):
     response_text = response.choices[0].message.content.strip().lower()
     
     return response_text
+
+def print_number(lowest, highest):
+    print("== Job processing started")
+    x = lowest
+    while x<=highest :
+        print("{}\n".format(x))
+        x = x+1
+    print("== End ==")

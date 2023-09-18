@@ -12,3 +12,7 @@ def valid_api_key(external_key: str) -> bool:
     if external_key != "":
         return (os.environ.get('API_KEY') == external_key)
     return False
+
+class JobData(BaseModel):
+        lowest : int
+        highest: int
