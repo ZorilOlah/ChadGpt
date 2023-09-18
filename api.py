@@ -25,16 +25,17 @@ task_queue = Queue("task_queue", connection = redis_conn)
 @limiter.limit("12/minute")
 def post(request : Request, input : ChadInput):
         input_key = input.api_key
-        # if not valid_api_key(external_key=input_key):
-        #         raise HTTPException(
-        #         status_code=status.HTTP_401_UNAUTHORIZED,
-        #         detail="Incorrect api key",
-        #         headers={"WWW=Authenticate": "Basic"}
-        #         )
+        if not valid_api_key(external_key=input_key):
+                raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect api key",
+                headers={"WWW=Authenticate": "Basic"}
+                )
         response = task_queue.enqueue(prompt_chad, input.prompt)
         return {
              "succes": True,
-             "job_id" : response.id}
+             "job_id" : response.id,
+             "result" : response.return_value()}
 
 @app.post('/job')
 @limiter.limit("12/minute")
@@ -45,8 +46,8 @@ def post_job(request : Request, job: JobData):
     print(job_instance)
     return {
         "success": True,
-        "job_id": job_instance.id
-    }
+        "job_id": job_instance.id,
+        "result" : job_instance.return_value()}
 
 
 if __name__ == "__main__":
