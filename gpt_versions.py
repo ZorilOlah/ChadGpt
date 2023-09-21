@@ -25,7 +25,7 @@ def prompt_chad(text):
                       temperature=0)
     
     response_text = response.choices[0].message.content.strip().lower()
-    
+    print(response_text)
     return response_text
 
 def prompt_normal(text):
@@ -102,3 +102,4 @@ def print_number(lowest, highest):
         print("{}\n".format(x))
         x = x+1
     print("== End ==")
+    return(x)
