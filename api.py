@@ -42,7 +42,7 @@ def post(request : Request, input : ChadInput):
              "result" : response.result,
         }
 
-@app.post('/highest')
+@app.post('/highest_queue')
 @limiter.limit("12/minute")
 def post_job(request : Request, job: JobData):
         lowest = job.lowest
@@ -57,6 +57,14 @@ def post_job(request : Request, job: JobData):
                 "result" : response.result,
         }
 
+@app.post('/highest_noqueue')
+@limiter.limit("12/minute")
+def post_job(request : Request, job: JobData):
+        lowest = job.lowest
+        highest = job.highest
+        response = print_number(lowest, highest)
+        return { "results" : response
+        }
 
 if __name__ == "__main__":
     uvicorn.run("api:app", host = os.environ.get('HOSTNAME'), reload = True)
