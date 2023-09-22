@@ -45,14 +45,17 @@ def post(request : Request, input : ChadInput):
 @app.post('/highest')
 @limiter.limit("12/minute")
 def post_job(request : Request, job: JobData):
-    lowest = job.lowest
-    highest = job.highest
-    job_instance = task_queue.enqueue(print_number, lowest, highest)
-    print(job_instance)
-    return {
-        "success": True,
-        "job_id": job_instance.id,
-        "result" : job_instance.return_value()}
+        lowest = job.lowest
+        highest = job.highest
+        response = task_queue.enqueue(print_number, lowest, highest)
+        
+        while response.result == None:
+                        response = Job.fetch(response.id, connection = redis_conn)
+        return {
+                "succes": True,
+                "job_id" : response.id,
+                "result" : response.result,
+        }
 
 
 if __name__ == "__main__":
