@@ -42,6 +42,22 @@ def post(request : Request, input : ChadInput):
              "result" : response.result,
         }
 
+@app.post('/chad_gpt_noqueue')
+@limiter.limit("12/minute")
+def post(request : Request, input : ChadInput):
+        input_key = input.api_key
+        if not valid_api_key(external_key=input_key):
+                raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Incorrect api key",
+                headers={"WWW=Authenticate": "Basic"}
+                )
+        response = prompt_chad(input.prompt)
+        
+        return {
+             "result" : response,
+        }
+
 @app.post('/highest_queue')
 @limiter.limit("12/minute")
 def post_job(request : Request, job: JobData):

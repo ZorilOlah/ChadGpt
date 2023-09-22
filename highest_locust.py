@@ -12,4 +12,4 @@ class ApiUser(HttpUser):
             "lowest": "4",
             "highest": "9"
         }
-        self.client.post("/highest", json=payload, headers=self.headers)
+        self.client.post("/highest_noqueue", json=payload, headers=self.headers)
